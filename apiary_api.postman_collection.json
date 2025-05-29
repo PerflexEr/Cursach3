@@ -1,0 +1,627 @@
+{
+	"info": {
+		"_postman_id": "unique-id",
+		"name": "Apiary API",
+		"description": "API collection for Apiary Monitoring System",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Auth Service",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "your_username",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "your_password",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/token",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "token"]
+						}
+					}
+				},
+				{
+					"name": "Create User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"user@example.com\",\n    \"username\": \"testuser\",\n    \"password\": \"password123\",\n    \"is_active\": true,\n    \"is_superuser\": false\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/users/",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "users"]
+						}
+					}
+				},
+				{
+					"name": "Get Current User",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/auth/users/me/",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "users", "me"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Hive Service",
+			"item": [
+				{
+					"name": "Create Hive",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Test Hive\",\n    \"location\": \"Backyard\",\n    \"description\": \"Test hive description\",\n    \"queen_year\": 2024,\n    \"frames_count\": 10\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/hive/hives/",
+							"host": ["{{base_url}}"],
+							"path": ["hive", "hives"]
+						}
+					}
+				},
+				{
+					"name": "Get All Hives",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/hive/hives/",
+							"host": ["{{base_url}}"],
+							"path": ["hive", "hives"],
+							"query": [
+								{
+									"key": "skip",
+									"value": "0",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "100",
+									"disabled": true
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Hive by ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/hive/hives/{{hive_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["hive", "hives", "{{hive_id}}"]
+						}
+					}
+				},
+				{
+					"name": "Update Hive",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Updated Hive\",\n    \"location\": \"New Location\",\n    \"description\": \"Updated description\",\n    \"queen_year\": 2024,\n    \"frames_count\": 12\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/hive/hives/{{hive_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["hive", "hives", "{{hive_id}}"]
+						}
+					}
+				},
+				{
+					"name": "Create Inspection",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"hive_id\": {{hive_id}},\n    \"temperature\": 25.5,\n    \"humidity\": 65.0,\n    \"weight\": 45.2,\n    \"notes\": \"Regular inspection\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/hive/inspections/",
+							"host": ["{{base_url}}"],
+							"path": ["hive", "inspections"]
+						}
+					}
+				},
+				{
+					"name": "Get Hive Inspections",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/hive/hives/{{hive_id}}/inspections/",
+							"host": ["{{base_url}}"],
+							"path": ["hive", "hives", "{{hive_id}}", "inspections"],
+							"query": [
+								{
+									"key": "skip",
+									"value": "0",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "100",
+									"disabled": true
+								}
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Monitoring Service",
+			"item": [
+				{
+					"name": "Create Sensor",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"hive_id\": {{hive_id}},\n    \"type\": \"temperature\",\n    \"name\": \"Main Temperature Sensor\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/monitoring/sensors/",
+							"host": ["{{base_url}}"],
+							"path": ["monitoring", "sensors"]
+						}
+					}
+				},
+				{
+					"name": "Get Hive Sensors",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/monitoring/hives/{{hive_id}}/sensors/",
+							"host": ["{{base_url}}"],
+							"path": ["monitoring", "hives", "{{hive_id}}", "sensors"]
+						}
+					}
+				},
+				{
+					"name": "Get Sensor Stats",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/monitoring/sensors/{{sensor_id}}/stats/",
+							"host": ["{{base_url}}"],
+							"path": ["monitoring", "sensors", "{{sensor_id}}", "stats"]
+						}
+					}
+				},
+				{
+					"name": "Get Sensor Measurements",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/monitoring/sensors/{{sensor_id}}/measurements/",
+							"host": ["{{base_url}}"],
+							"path": ["monitoring", "sensors", "{{sensor_id}}", "measurements"],
+							"query": [
+								{
+									"key": "start_date",
+									"value": "2024-03-19T00:00:00",
+									"disabled": true
+								},
+								{
+									"key": "end_date",
+									"value": "2024-03-20T00:00:00",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "100",
+									"disabled": true
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Alerts",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/monitoring/alerts/",
+							"host": ["{{base_url}}"],
+							"path": ["monitoring", "alerts"],
+							"query": [
+								{
+									"key": "hive_id",
+									"value": "{{hive_id}}",
+									"disabled": true
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Resolve Alert",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/monitoring/alerts/{{alert_id}}/resolve/",
+							"host": ["{{base_url}}"],
+							"path": ["monitoring", "alerts", "{{alert_id}}", "resolve"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Notification Service",
+			"item": [
+				{
+					"name": "Create Template",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Alert Template\",\n    \"subject\": \"Alert: {alert_type}\",\n    \"body\": \"Alert for hive {hive_name}: {message}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/notification/templates/",
+							"host": ["{{base_url}}"],
+							"path": ["notification", "templates"]
+						}
+					}
+				},
+				{
+					"name": "Get Templates",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/notification/templates/",
+							"host": ["{{base_url}}"],
+							"path": ["notification", "templates"],
+							"query": [
+								{
+									"key": "skip",
+									"value": "0",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "100",
+									"disabled": true
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get User Settings",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/notification/settings/me/",
+							"host": ["{{base_url}}"],
+							"path": ["notification", "settings", "me"]
+						}
+					}
+				},
+				{
+					"name": "Create User Settings",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email_notifications\": true,\n    \"push_notifications\": false,\n    \"notification_frequency\": \"realtime\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/notification/settings/",
+							"host": ["{{base_url}}"],
+							"path": ["notification", "settings"]
+						}
+					}
+				},
+				{
+					"name": "Update User Settings",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email_notifications\": true,\n    \"push_notifications\": true,\n    \"notification_frequency\": \"daily\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/notification/settings/me/",
+							"host": ["{{base_url}}"],
+							"path": ["notification", "settings", "me"]
+						}
+					}
+				},
+				{
+					"name": "Get User Notifications",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/notification/notifications/",
+							"host": ["{{base_url}}"],
+							"path": ["notification", "notifications"],
+							"query": [
+								{
+									"key": "skip",
+									"value": "0",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "100",
+									"disabled": true
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Pending Notifications",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/notification/notifications/pending/",
+							"host": ["{{base_url}}"],
+							"path": ["notification", "notifications", "pending"],
+							"query": [
+								{
+									"key": "limit",
+									"value": "100",
+									"disabled": true
+								}
+							]
+						}
+					}
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8000",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "your_access_token",
+			"type": "string"
+		},
+		{
+			"key": "hive_id",
+			"value": "1",
+			"type": "string"
+		},
+		{
+			"key": "sensor_id",
+			"value": "1",
+			"type": "string"
+		},
+		{
+			"key": "alert_id",
+			"value": "1",
+			"type": "string"
+		}
+	]
+} 

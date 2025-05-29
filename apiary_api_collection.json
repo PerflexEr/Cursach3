@@ -1,0 +1,450 @@
+{
+	"info": {
+		"name": "Apiary Monitoring System API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Auth Service",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "your_username",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "your_password",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8000/token",
+							"host": ["localhost"],
+							"port": "8000",
+							"path": ["token"]
+						}
+					}
+				},
+				{
+					"name": "Create User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"user@example.com\",\n    \"username\": \"testuser\",\n    \"password\": \"password123\",\n    \"is_active\": true,\n    \"is_superuser\": false\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8000/users/",
+							"host": ["localhost"],
+							"port": "8000",
+							"path": ["users", ""]
+						}
+					}
+				},
+				{
+					"name": "Get Current User",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/users/me/",
+							"host": ["localhost"],
+							"port": "8000",
+							"path": ["users", "me", ""]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Hive Service",
+			"item": [
+				{
+					"name": "Create Hive",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Test Hive\",\n    \"location\": \"Backyard\",\n    \"description\": \"Test hive description\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8001/hives/",
+							"host": ["localhost"],
+							"port": "8001",
+							"path": ["hives", ""]
+						}
+					}
+				},
+				{
+					"name": "Get All Hives",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8001/hives/",
+							"host": ["localhost"],
+							"port": "8001",
+							"path": ["hives", ""]
+						}
+					}
+				},
+				{
+					"name": "Get Hive Details",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8001/hives/1",
+							"host": ["localhost"],
+							"port": "8001",
+							"path": ["hives", "1"]
+						}
+					}
+				},
+				{
+					"name": "Update Hive",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Updated Hive Name\",\n    \"location\": \"New Location\",\n    \"description\": \"Updated description\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8001/hives/1",
+							"host": ["localhost"],
+							"port": "8001",
+							"path": ["hives", "1"]
+						}
+					}
+				},
+				{
+					"name": "Get Hive Inspections",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8001/hives/1/inspections/",
+							"host": ["localhost"],
+							"port": "8001",
+							"path": ["hives", "1", "inspections", ""]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Monitoring Service",
+			"item": [
+				{
+					"name": "Create Sensor",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Temperature Sensor\",\n    \"type\": \"temperature\",\n    \"hive_id\": 1\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8002/sensors/",
+							"host": ["localhost"],
+							"port": "8002",
+							"path": ["sensors", ""]
+						}
+					}
+				},
+				{
+					"name": "Get Hive Sensors",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8002/hives/1/sensors/",
+							"host": ["localhost"],
+							"port": "8002",
+							"path": ["hives", "1", "sensors", ""]
+						}
+					}
+				},
+				{
+					"name": "Get Sensor Stats",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8002/sensors/1/stats/",
+							"host": ["localhost"],
+							"port": "8002",
+							"path": ["sensors", "1", "stats", ""]
+						}
+					}
+				},
+				{
+					"name": "Get Sensor Measurements",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8002/sensors/1/measurements/",
+							"host": ["localhost"],
+							"port": "8002",
+							"path": ["sensors", "1", "measurements", ""]
+						}
+					}
+				},
+				{
+					"name": "Get Alerts",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8002/alerts/",
+							"host": ["localhost"],
+							"port": "8002",
+							"path": ["alerts", ""]
+						}
+					}
+				},
+				{
+					"name": "Resolve Alert",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8002/alerts/1/resolve/",
+							"host": ["localhost"],
+							"port": "8002",
+							"path": ["alerts", "1", "resolve", ""]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Notification Service",
+			"item": [
+				{
+					"name": "Create Notification Template",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Temperature Alert\",\n    \"subject\": \"High Temperature Alert\",\n    \"template\": \"Temperature in hive {hive_name} has reached {temperature}°C\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8003/templates/",
+							"host": ["localhost"],
+							"port": "8003",
+							"path": ["templates", ""]
+						}
+					}
+				},
+				{
+					"name": "Get Notification Templates",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8003/templates/",
+							"host": ["localhost"],
+							"port": "8003",
+							"path": ["templates", ""]
+						}
+					}
+				},
+				{
+					"name": "Get User Notification Settings",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8003/settings/me/",
+							"host": ["localhost"],
+							"port": "8003",
+							"path": ["settings", "me", ""]
+						}
+					}
+				},
+				{
+					"name": "Create User Notification Settings",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email_notifications\": true,\n    \"push_notifications\": false,\n    \"notification_frequency\": \"immediate\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8003/settings/",
+							"host": ["localhost"],
+							"port": "8003",
+							"path": ["settings", ""]
+						}
+					}
+				},
+				{
+					"name": "Update User Notification Settings",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email_notifications\": true,\n    \"push_notifications\": true,\n    \"notification_frequency\": \"daily\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8003/settings/me/",
+							"host": ["localhost"],
+							"port": "8003",
+							"path": ["settings", "me", ""]
+						}
+					}
+				},
+				{
+					"name": "Get User Notifications",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8003/notifications/",
+							"host": ["localhost"],
+							"port": "8003",
+							"path": ["notifications", ""]
+						}
+					}
+				}
+			]
+		}
+	]
+} 
