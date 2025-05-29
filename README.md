@@ -54,12 +54,28 @@ docker compose exec notification_service alembic upgrade head
 
 ## API Documentation
 
-Each service exposes its own Swagger documentation at `/docs` endpoint:
+Each service exposes its own Swagger documentation:
 
-- Auth Service: http://localhost:8000/auth/docs
-- Hive Service: http://localhost:8000/hive/docs
-- Monitoring Service: http://localhost:8000/monitoring/docs
-- Notification Service: http://localhost:8000/notification/docs
+- Auth Service: http://localhost:8000/docs
+- Hive Service: http://localhost:8001/docs
+- Monitoring Service: http://localhost:8002/docs
+- Notification Service: http://localhost:8003/docs
+
+## Environment Configuration
+
+The system supports different environment configurations:
+
+1. Development:
+```bash
+cp .env.example .env.dev
+docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d
+```
+
+2. Production:
+```bash
+cp .env.example .env.prod
+docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+```
 
 ## Development
 

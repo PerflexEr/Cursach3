@@ -1,0 +1,408 @@
+{
+	"info": {
+		"_postman_id": "unique-id",
+		"name": "Apiary API Full Collection",
+		"description": "Complete collection for testing all Apiary API endpoints",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost"
+		},
+		{
+			"key": "auth_port",
+			"value": "8000"
+		},
+		{
+			"key": "hive_port",
+			"value": "8001"
+		},
+		{
+			"key": "monitoring_port",
+			"value": "8002"
+		},
+		{
+			"key": "notification_port",
+			"value": "8003"
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{access_token}}",
+				"type": "string"
+			}
+		]
+	},
+	"item": [
+		{
+			"name": "Auth Service",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"pm.environment.set(\"access_token\", jsonData.access_token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "{{username}}",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}:{{auth_port}}/token",
+							"host": ["{{base_url}}"],
+							"port": "{{auth_port}}",
+							"path": ["token"]
+						}
+					}
+				},
+				{
+					"name": "Create User",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"test@example.com\",\n    \"username\": \"testuser\",\n    \"password\": \"testpassword\",\n    \"is_active\": true,\n    \"is_superuser\": false\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}:{{auth_port}}/users/",
+							"host": ["{{base_url}}"],
+							"port": "{{auth_port}}",
+							"path": ["users", ""]
+						}
+					}
+				},
+				{
+					"name": "Get Current User",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}:{{auth_port}}/users/me/",
+							"host": ["{{base_url}}"],
+							"port": "{{auth_port}}",
+							"path": ["users", "me", ""]
+						}
+					}
+				},
+				{
+					"name": "Get User by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}:{{auth_port}}/users/1",
+							"host": ["{{base_url}}"],
+							"port": "{{auth_port}}",
+							"path": ["users", "1"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Hive Service",
+			"item": [
+				{
+					"name": "Create Hive",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Test Hive\",\n    \"location\": \"Backyard\",\n    \"description\": \"Test hive description\",\n    \"status\": \"active\",\n    \"queen_year\": 2024,\n    \"frames_count\": 10\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}:{{hive_port}}/hives/",
+							"host": ["{{base_url}}"],
+							"port": "{{hive_port}}",
+							"path": ["hives", ""]
+						}
+					}
+				},
+				{
+					"name": "Get All Hives",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}:{{hive_port}}/hives/?skip=0&limit=100",
+							"host": ["{{base_url}}"],
+							"port": "{{hive_port}}",
+							"path": ["hives", ""],
+							"query": [
+								{
+									"key": "skip",
+									"value": "0"
+								},
+								{
+									"key": "limit",
+									"value": "100"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Hive with Stats",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}:{{hive_port}}/hives/1",
+							"host": ["{{base_url}}"],
+							"port": "{{hive_port}}",
+							"path": ["hives", "1"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Monitoring Service",
+			"item": [
+				{
+					"name": "Create Sensor",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Temperature Sensor\",\n    \"type\": \"temperature\",\n    \"hive_id\": 1,\n    \"description\": \"Main temperature sensor\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}:{{monitoring_port}}/sensors/",
+							"host": ["{{base_url}}"],
+							"port": "{{monitoring_port}}",
+							"path": ["sensors", ""]
+						}
+					}
+				},
+				{
+					"name": "Get Hive Sensors",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}:{{monitoring_port}}/hives/1/sensors/",
+							"host": ["{{base_url}}"],
+							"port": "{{monitoring_port}}",
+							"path": ["hives", "1", "sensors", ""]
+						}
+					}
+				},
+				{
+					"name": "Get Sensor Stats",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}:{{monitoring_port}}/sensors/1/stats/",
+							"host": ["{{base_url}}"],
+							"port": "{{monitoring_port}}",
+							"path": ["sensors", "1", "stats", ""]
+						}
+					}
+				},
+				{
+					"name": "Get Sensor Measurements",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}:{{monitoring_port}}/sensors/1/measurements/?start_date=2024-01-01T00:00:00&end_date=2024-12-31T23:59:59&limit=100",
+							"host": ["{{base_url}}"],
+							"port": "{{monitoring_port}}",
+							"path": ["sensors", "1", "measurements", ""],
+							"query": [
+								{
+									"key": "start_date",
+									"value": "2024-01-01T00:00:00"
+								},
+								{
+									"key": "end_date",
+									"value": "2024-12-31T23:59:59"
+								},
+								{
+									"key": "limit",
+									"value": "100"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Alerts",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}:{{monitoring_port}}/alerts/?hive_id=1",
+							"host": ["{{base_url}}"],
+							"port": "{{monitoring_port}}",
+							"path": ["alerts", ""],
+							"query": [
+								{
+									"key": "hive_id",
+									"value": "1"
+								}
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Notification Service",
+			"item": [
+				{
+					"name": "Create Template",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Alert Template\",\n    \"subject\": \"Alert: {{alert_type}}\",\n    \"body\": \"Dear {{user_name}}, there is an alert for your hive {{hive_name}}: {{message}}\",\n    \"type\": \"email\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}:{{notification_port}}/templates/",
+							"host": ["{{base_url}}"],
+							"port": "{{notification_port}}",
+							"path": ["templates", ""]
+						}
+					}
+				},
+				{
+					"name": "Get Templates",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}:{{notification_port}}/templates/?skip=0&limit=100",
+							"host": ["{{base_url}}"],
+							"port": "{{notification_port}}",
+							"path": ["templates", ""],
+							"query": [
+								{
+									"key": "skip",
+									"value": "0"
+								},
+								{
+									"key": "limit",
+									"value": "100"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get User Settings",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}:{{notification_port}}/settings/me/",
+							"host": ["{{base_url}}"],
+							"port": "{{notification_port}}",
+							"path": ["settings", "me", ""]
+						}
+					}
+				},
+				{
+					"name": "Get User Notifications",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}:{{notification_port}}/notifications/?skip=0&limit=100",
+							"host": ["{{base_url}}"],
+							"port": "{{notification_port}}",
+							"path": ["notifications", ""],
+							"query": [
+								{
+									"key": "skip",
+									"value": "0"
+								},
+								{
+									"key": "limit",
+									"value": "100"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Pending Notifications",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}:{{notification_port}}/notifications/pending/?limit=100",
+							"host": ["{{base_url}}"],
+							"port": "{{notification_port}}",
+							"path": ["notifications", "pending", ""],
+							"query": [
+								{
+									"key": "limit",
+									"value": "100"
+								}
+							]
+						}
+					}
+				}
+			]
+		}
+	]
+} 
