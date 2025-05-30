@@ -17,6 +17,12 @@ alert_service = AlertService()
 user_service = UserService()
 
 
+@app.get("/health")
+async def health():
+    """Health check endpoint"""
+    return {"status": "healthy", "service": "monitoring"}
+
+
 @app.post("/sensors/", response_model=schemas.Sensor)
 async def create_sensor(
     sensor: schemas.SensorCreate,
@@ -112,4 +118,4 @@ async def resolve_alert(
     alert = await alert_service.resolve_alert(db, alert_id, current_user.id)
     if alert is None:
         raise HTTPException(status_code=404, detail="Alert not found")
-    return alert 
+    return alert
