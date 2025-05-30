@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Float, ForeignKey, Enum
+from sqlalchemy import Column, Integer, String, Float, ForeignKey
 from sqlalchemy.orm import relationship
 import enum
 from shared.database import Base, TimestampMixin
@@ -17,7 +17,7 @@ class Hive(Base, TimestampMixin):
     name = Column(String, index=True)
     location = Column(String)
     description = Column(String, nullable=True)
-    status = Column(Enum(HiveStatus), default=HiveStatus.ACTIVE)
+    status = Column(String, default=HiveStatus.ACTIVE.value)  # Изменено на String
     queen_year = Column(Integer)
     frames_count = Column(Integer)
     user_id = Column(Integer, ForeignKey("users.id"))
@@ -38,4 +38,4 @@ class Inspection(Base, TimestampMixin):
     user_id = Column(Integer, ForeignKey("users.id"))
 
     # Relationships
-    hive = relationship("Hive", back_populates="inspections") 
+    hive = relationship("Hive", back_populates="inspections")

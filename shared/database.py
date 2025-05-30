@@ -6,7 +6,7 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine, async_sessionmaker
 import os
 
-SQLALCHEMY_DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://apiary:apiary123@localhost:5432/apiary_db")
+SQLALCHEMY_DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://apiary:apiary123@postgres:5432/apiary_db")
 
 engine = create_async_engine(SQLALCHEMY_DATABASE_URL.replace("postgresql://", "postgresql+asyncpg://"))
 SessionLocal = async_sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
@@ -28,4 +28,4 @@ async def get_db() -> AsyncSession:
             await session.rollback()
             raise
         finally:
-            await session.close() 
+            await session.close()

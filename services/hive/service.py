@@ -82,7 +82,7 @@ class HiveService(BaseService[models.Hive]):
             "name": hive.name,
             "location": hive.location,
             "description": hive.description,
-            "status": hive.status.value,
+            "status": hive.status,  # Убираем .value, просто используем строку
             "queen_year": hive.queen_year,
             "frames_count": hive.frames_count,
             "user_id": hive.user_id,
