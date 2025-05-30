@@ -1,12 +1,15 @@
 from typing import List, Optional
 from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy import text
 from datetime import datetime
 
 from shared.database import get_db
 from services.auth.service import UserService
 from services.auth.models import User
-from . import schemas
+# Импортируем модель Hive для правильной работы foreign key
+from services.hive.models import Hive
+from . import schemas, models
 from .service import SensorService, MeasurementService, AlertService
 
 app = FastAPI(title="Monitoring Service", version="1.0.0")

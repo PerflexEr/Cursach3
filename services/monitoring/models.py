@@ -41,4 +41,6 @@ class Alert(Base, TimestampMixin):
     user_id = Column(Integer, ForeignKey("users.id", name="fk_alerts_user_id"))
 
     # Relationships
-    sensor = relationship("Sensor")
+    sensor = relationship("Sensor", foreign_keys=[sensor_id])
+    hive = relationship("Hive", foreign_keys=[hive_id])
+    user = relationship("User", foreign_keys=[user_id])
